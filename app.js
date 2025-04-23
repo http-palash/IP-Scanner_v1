@@ -4,7 +4,7 @@ const dns = require('dns').promises;
 const arp = require('node-arp');
 const axios = require('axios');
 const { exec } = require('child_process');
-
+const cheerio = require('cheerio'); // Add at the top
 const app = express();
 const port = 3000;
 
@@ -16,12 +16,37 @@ app.get('/', (req, res) => {
   });
   
 // Utility: Get manufacturer from MAC address
+// async function getManufacturer(mac) {
+//   if (!mac || mac === 'Unknown') return 'Unknown';
+//   try {
+//     const response = await axios.get(`https://api.macvendors.com/${mac}`);
+//     return response.data || 'Unknown';
+//   } catch (err) {
+//     return 'Unknown';
+//   }
+// }
+
+
+
+
 async function getManufacturer(mac) {
   if (!mac || mac === 'Unknown') return 'Unknown';
   try {
-    const response = await axios.get(`https://api.macvendors.com/${mac}`);
-    return response.data || 'Unknown';
-  } catch {
+    const url = `https://maclookup.app/search/result?mac=${mac}`;
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+
+    const metaContent = $('meta[name="description"]').attr('content');
+    if (!metaContent) return 'Unknown';
+
+    // Extract vendor/company name from the content string
+    const match = metaContent.match(/Vendor\/Company:\s*([^,]+)/);
+    const manufacturer = match ? match[1].trim() : 'Unknown';
+
+    console.log(manufacturer); // Optional: for debugging
+    return manufacturer;
+  } catch (err) {
+    console.error(`Error fetching vendor for MAC ${mac}:`, err.message);
     return 'Unknown';
   }
 }

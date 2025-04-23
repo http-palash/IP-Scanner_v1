@@ -27,7 +27,7 @@ document.getElementById('scanForm').addEventListener('submit', async function (e
   }
 });
 
-// ✅ Function to display scan results
+// Function to display scan results
 function displayResults(results) {
   const resultsDiv = document.getElementById('results');
   if (results.length === 0) {
@@ -62,6 +62,6 @@ function displayResults(results) {
     table.appendChild(row);
   });
 
-  resultsDiv.innerHTML = ''; // Clear previous
+  resultsDiv.innerHTML = ''; 
   resultsDiv.appendChild(table);
 }
