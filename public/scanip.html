@@ -8,19 +8,46 @@
 </head>
 <body>
   <div class="container">
-    <h1 style="font-family:sans-serif">IP Range Scanner</h1>
+    <h1 style="font-family:sans-serif">IP MAC Scanner</h1>
     <form id="scanForm">
       <input type="text" id="startIP" placeholder="Start IP" />
       <input type="text" id="endIP" placeholder="End IP" />
       <div>
-        <label style="display: flex; font-family:sans-serif">
+        <label style="display: flex; font-family:sans-serif; gap: 8px">
           Show only devices with MAC
           <span>
             <input type="checkbox" id="macOnly" />
           </span>
         </label>
         </div>
-      <button type="submit">Scan</button>
+        <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0; font-family: sans-serif;">
+          <label for="autoReload" style="display: flex;  font-family:sans-serif; gap: 8px;">
+            Enable auto scan
+            <span>
+              <input type="checkbox" id="autoReload" />
+            </span>
+          </label>
+          <span style="margin-left: 20px;">
+            <input
+              type="number"
+              id="reloadInterval"
+              placeholder="Time (ms)"
+              min="500"
+              value="2000"
+              max="30000"
+              style="
+                width: 60px;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-family: inherit;
+              "
+            />
+          </span>
+        </div>
+        
+        
+      <button id="scan-button" type="submit">Scan</button>
     </form>
     <div id="results"></div>
     

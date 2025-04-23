@@ -3,6 +3,7 @@
     "axios": "^1.8.4",
     "bacstack": "^0.0.1-beta.14",
     "body-parser": "^2.2.0",
+    "cheerio": "^1.0.0",
     "express": "^5.1.0",
     "node-arp": "^1.0.6",
     "oui": "^13.0.5"

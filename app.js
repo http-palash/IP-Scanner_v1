@@ -14,14 +14,40 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/scanip.html');
   });
-  
+
+
+// old technique
 // Utility: Get manufacturer from MAC address
+// async function getManufacturer(mac) {
+//   if (!mac || mac === 'Unknown') return 'Unknown';
+//   try {
+//     const response = await axios.get(`https://api.macvendors.com/${mac}`);
+//     return response.data || 'Unknown';
+//   } catch (err) {
+//     return 'Unknown';
+//   }
+// }
+
+const cheerio = require('cheerio');
+// Its more better 
 async function getManufacturer(mac) {
   if (!mac || mac === 'Unknown') return 'Unknown';
   try {
-    const response = await axios.get(`https://api.macvendors.com/${mac}`);
-    return response.data || 'Unknown';
-  } catch {
+    const url = `https://maclookup.app/search/result?mac=${mac}`;
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+
+    const metaContent = $('meta[name="description"]').attr('content');
+    if (!metaContent) return 'Unknown';
+
+    // Extract vendor/company name from the content string
+    const match = metaContent.match(/Vendor\/Company:\s*([^,]+)/);
+    const manufacturer = match ? match[1].trim() : 'Unknown';
+
+    // console.log(manufacturer); // for debugging
+    return manufacturer;
+  } catch (err) {
+    console.error(`Error fetching vendor for MAC ${mac}:`, err.message);
     return 'Unknown';
   }
 }
