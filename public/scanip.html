@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IP Range Scanner</title>
+  <link rel="stylesheet" href="scanip.css">
+</head>
+<body>
+  <div class="container">
+    <h1 style="font-family:sans-serif">IP Range Scanner</h1>
+    <form id="scanForm">
+      <input type="text" id="startIP" placeholder="Start IP" />
+      <input type="text" id="endIP" placeholder="End IP" />
+      <div>
+        <label style="display: flex; font-family:sans-serif">
+          Show only devices with MAC
+          <span>
+            <input type="checkbox" id="macOnly" />
+          </span>
+        </label>
+        </div>
+      <button type="submit">Scan</button>
+    </form>
+    <div id="results"></div>
+    
+  </div>
+
+  <script src="scanip.js"></script>
+</body>
+</html>
